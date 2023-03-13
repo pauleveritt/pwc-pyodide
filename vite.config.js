@@ -4,6 +4,8 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 import fs from "fs";
 import path from "path";
 import { createRequire } from "module";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
 
 const PYODIDE_ASSETS = [
   "pyodide.asm.js",
@@ -37,6 +39,13 @@ export default defineConfig({
   build: {
     outDir: "../../dist",
     emptyOutDir: true,
+    rollupOptions: {
+      plugins: [
+        resolve(), // tells Rollup how to find date-fns in node_modules
+        commonjs(), // converts date-fns to ES modules
+      ],
+      external: ["fs/promises"],
+    },
   },
   plugins: [
     viteStaticCopy({
