@@ -4,6 +4,7 @@ import { getPyodideAssets } from "./vite-plugin-pyodide.js";
 
 export default defineConfig({
   root: "src/pwc_pyodide",
+  publicDir: "static",
   build: {
     outDir: "../../dist",
     emptyOutDir: true,
