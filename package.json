@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "vite serve",
     "build": "vite build",
-    "rollup-build": "rollup -c",
-    "preview": "vite preview",
-    "start": "serve xxx-public"
+    "preview": "vite preview"
   },
   "devDependencies": {
     "vite": "^4.1.0",
