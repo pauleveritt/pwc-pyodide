@@ -18,13 +18,18 @@ export const getModuleDir = () => {
   return lookupPaths.find((p) => fs.existsSync(p));
 };
 
-export function getPyodideAssets() {
+export function getPyodideAssets(projectRoot) {
   const pyodideDir = getModuleDir();
-  return PYODIDE_ASSETS.map((asset) => {
+  const assets = PYODIDE_ASSETS.map((asset) => {
     return {
       src: path.join(pyodideDir, asset),
       dest: "pyodide-data",
       rename: asset,
     };
   });
+  assets.push({
+    src: `${projectRoot}/*.py`,
+    dest: "",
+  });
+  return assets;
 }

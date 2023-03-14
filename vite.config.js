@@ -1,9 +1,11 @@
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import { getPyodideAssets } from "./vite-plugin-pyodide.js";
+import path from "path";
 
+const root = path.join(__dirname, "src/pwc_pyodide");
 export default defineConfig({
-  root: "src/pwc_pyodide",
+  root,
   publicDir: "static",
   build: {
     outDir: "../../dist",
@@ -14,7 +16,7 @@ export default defineConfig({
   },
   plugins: [
     viteStaticCopy({
-      targets: getPyodideAssets(),
+      targets: getPyodideAssets(root),
     }),
   ],
 });
