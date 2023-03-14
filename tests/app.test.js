@@ -1,19 +1,16 @@
 import { beforeEach, expect, test } from "vitest";
-import {
+import init, {
   current_counter,
   pyodide,
   setupCounter,
   setupPyodide,
+  updateCounter,
 } from "../src/pwc_pyodide/app.js";
 import { getModuleDir } from "../vite-plugin-pyodide.js";
 
-// await setupPyodide(getModuleDir());
-// const initialPyodideState = pyodide.pyodide_py._state.save_state();
-
-// beforeEach(async () => {
-//   // On each test, reset to an "empty" interpreter
-//   pyodide.pyodide_py._state.restore_state(initialPyodideState);
-// });
+beforeEach(() => {
+  document.body.innerHTML = `<div id="counter"></div>`;
+});
 
 test("load and initialize Pyodide", async () => {
   expect(pyodide).to.be.undefined;
@@ -31,6 +28,19 @@ test("load and initialize Counter", async () => {
   expect(current_counter).to.exist;
 });
 
-test("increment a counter", () => {
-  expect(current_counter.current_count).to.equal(0);
+test("increment a counter", async () => {
+  const pyodideDir = getModuleDir();
+  await setupPyodide(pyodideDir);
+  await setupCounter();
+  expect(current_counter.count).to.equal(0);
+});
+
+test("render a counter", async () => {
+  const counter = document.getElementById("counter");
+  expect(counter.textContent).to.be.empty;
+  const pyodideDir = getModuleDir();
+  await init(pyodideDir);
+  expect(counter.textContent.trim()).to.equal("Current Count: 0");
+  updateCounter();
+  expect(counter.textContent.trim()).to.equal("Current Count: 1");
 });

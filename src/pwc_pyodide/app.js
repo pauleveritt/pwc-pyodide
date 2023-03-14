@@ -1,7 +1,6 @@
 import { loadPyodide } from "pyodide";
 
 export let pyodide, current_counter;
-const targetCounter = document.getElementById("counter");
 
 export async function setupPyodide(pyodideDir = "/pyodide-data") {
   pyodide = await loadPyodide({
@@ -10,8 +9,7 @@ export async function setupPyodide(pyodideDir = "/pyodide-data") {
 }
 
 export async function setupCounter() {
-  let url = new URL("/counter.py", import.meta.url);
-  url = "/counter.py";
+  const url = "/counter.py";
   const response = await fetch(url);
   const content = await response.text();
   pyodide.FS.writeFile("counter.py", content, {
@@ -20,20 +18,22 @@ export async function setupCounter() {
   current_counter = pyodide.runPython("import counter;counter.Counter()");
 }
 
-function renderCounter() {
+export function renderCounter() {
+  const targetCounter = document.getElementById("counter");
   targetCounter.innerHTML = `
-  <span>Current Count: ${current_counter.current_count}</span>
+  <span>Current Count: ${current_counter.count}</span>
   `;
 }
 
-function updateCounter() {
+export function updateCounter() {
   current_counter.increment();
   renderCounter();
 }
 
-export default async function init() {
-  await setupPyodide("/pyodide-data");
+export default async function init(pyodideDir = "/pyodide-data") {
+  await setupPyodide(pyodideDir);
   await setupCounter();
+  const targetCounter = document.getElementById("counter");
   targetCounter.addEventListener("click", updateCounter);
   // First render
   renderCounter();

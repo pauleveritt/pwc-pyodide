@@ -3,7 +3,11 @@ from dataclasses import dataclass
 
 @dataclass
 class Counter:
-    current_count: int = 0
+    count: int = 0
 
     def increment(self):
-        self.current_count += 1
+        self.count += 1
+
+
+def get_counter():
+    return Counter()
