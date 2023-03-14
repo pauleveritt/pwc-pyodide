@@ -10,7 +10,7 @@ const PYODIDE_ASSETS = [
   "pyodide.mjs",
   "repodata.json",
 ];
-const getModuleDir = () => {
+export const getModuleDir = () => {
   const require = createRequire(import.meta.url);
   const lookupPaths = require.resolve
     .paths("pyodide")
