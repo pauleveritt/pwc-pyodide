@@ -9,12 +9,9 @@ export async function setupPyodide(pyodideDir = "/pyodide-data") {
 }
 
 export async function setupCounter() {
-  const url = "/counter.py";
-  const response = await fetch(url);
+  const response = await fetch("/counter.py");
   const content = await response.text();
-  pyodide.FS.writeFile("counter.py", content, {
-    encoding: "utf8",
-  });
+  pyodide.FS.writeFile("counter.py", content);
   current_counter = pyodide.runPython("import counter;counter.Counter()");
 }
 

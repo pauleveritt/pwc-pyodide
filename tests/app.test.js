@@ -41,6 +41,16 @@ test("render a counter", async () => {
   const pyodideDir = getModuleDir();
   await init(pyodideDir);
   expect(counter.textContent.trim()).to.equal("Current Count: 0");
+});
+
+test("update a counter", async () => {
+  const counter = document.getElementById("counter");
+  const pyodideDir = getModuleDir();
+  await init(pyodideDir);
+  expect(counter.textContent.trim()).to.equal("Current Count: 0");
   updateCounter();
   expect(counter.textContent.trim()).to.equal("Current Count: 1");
+  // Now simulate a click
+  counter.click();
+  expect(counter.textContent.trim()).to.equal("Current Count: 2");
 });
