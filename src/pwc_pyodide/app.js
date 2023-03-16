@@ -17,9 +17,7 @@ export async function setupCounter() {
 
 export function renderCounter() {
   const targetCounter = document.getElementById("counter");
-  targetCounter.innerHTML = `
-  <span>Current Count: ${current_counter.count}</span>
-  `;
+  targetCounter.innerHTML = `Current Count: ${current_counter.count}`;
 }
 
 export function updateCounter() {

@@ -7,12 +7,15 @@ def test_index(page: Page):
     page.goto(url)
     assert page.title() == "Pyodide Counter"
 
-    # When the page loads, the pre#output is empty, until
-    # Pyodide kicks in.
-    pre = page.locator("#output")
-    assert pre.text_content() == ""
+    # When the page loads, the counter is empty, until Pyodide kicks in.
+    counter = page.locator("#counter")
+    assert counter.text_content() == ""
 
     # Now wait for the pre to get some content from Pyodide
-    message = "Hello Pyodide! This element was created from Python."
-    output = page.wait_for_selector(f"#output:has-text('{message}')")
-    assert output.text_content() == message
+    message = "Current Count: 0"
+    page.wait_for_selector(f"#counter:has-text('{message}')")
+    assert counter.text_content() == message
+
+    # Click it, test the result
+    counter.click()
+    assert counter.text_content() == "Current Count: 1"
